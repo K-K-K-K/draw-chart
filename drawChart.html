@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+	<div style="position: absolute; top: 1px; left: 150px; width: 650px; height: 300px">
+		<canvas id="chartTemp"></canvas>
+	</div>
+
+	<div style="position: absolute; top: 350px; left: 150px; width: 650px; height: 300px">
+		<canvas id="chartPres"></canvas>
+	</div>
+
+	<div style="position: absolute; top: 700px; left: 150px; width: 650px; height: 300px">
+		<canvas id="chartHum"></canvas>
+	</div>
+
+	<div>
+		<p style="position: absolute; top: 750px; right: 475px; font-size: 35px; text-align: left;">Device : Raspberry Pi 3 Model B+</p>
+		<p style="position: absolute; top: 790px; right: 342px; font-size: 35px; text-align: left;">Sensor : BME280 (Bosch Sensortec GmbH)</p>
+		<p style="position: absolute; top: 830px; right: 216px; font-size: 35px; text-align: left;">Camera : Logicool® Qcam® Orbit AF QCAM-200R</p>
+		<p style="position: absolute; top: 870px; right: 719px; font-size: 35px; text-align: left;">Library : Chart.js</p>
+	</div>
+
+
+	<script type="text/javascript">
+		var ctx_temp = document.getElementById('chartTemp').getContext('2d');
+		var ctx_pres = document.getElementById('chartPres').getContext('2d');
+		var ctx_hum = document.getElementById('chartHum').getContext('2d');
+
+		var today = new Date();
+		var day = "" + today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + ("0" + today.getDate()).slice(-2);
+		
+		var dataFilePath = ["/bme280/data/" + day + "_temp.csv", "/bme280/data/" + day + "_pres.csv", "/bme280/data/" + day + "_hum.csv"];
+
+		var tempData = convertCSVToArray(getDataFromCSV(dataFilePath[0]));
+		var presData = convertCSVToArray(getDataFromCSV(dataFilePath[1]));
+		var humData = convertCSVToArray(getDataFromCSV(dataFilePath[2]));
+
+		drawChart(ctx_temp, tempData, 'Temperature[℃]', dataFilePath[0]);
+		drawChart(ctx_pres, presData, 'Pressure[hPa]', dataFilePath[1]);
+		drawChart(ctx_hum, humData, 'Humidity[%]', dataFilePath[2]);
+
+		function getDataFromCSV(filePath) {
+			var req = new XMLHttpRequest(); 
+			//var receivedData = null;
+			req.open("get", filePath, false);
+			req.setRequestHeader('Pragma', 'no-cache');
+			req.setRequestHeader('Cache-Control', 'no-cache');
+			req.setRequestHeader('If-Modified-Since', 'Thu, 01 Jun 1970 00:00 GMT');
+			req.send(null);
+
+			if (req.status == 200) {
+				return req.responseText; 
+			} else { return null;
+			}
+		}
+
+		function convertCSVToArray(csvData) {
+			var convertedArray = [];
+			var tmp = csvData.split("\n");
+			for(var i = 0; i < tmp.length; i++) {
+				var cells = tmp[i].split(',');
+				convertedArray.push(cells);
+			}
+			return convertedArray;
+		}
+
+		function updateChart(context, fileName, chart, labels) {
+			var tmpDate = new Date();
+			if (tmpDate > today) {
+				today = tmpDate;
+				day = "" + today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + ("0" + today.getDate()).slice(-2);
+				fileName = fileName.slice(0, 13) + day + fileName.slice(12 + day.length + 1);
+			}
+
+			var datas = convertCSVToArray(getDataFromCSV(fileName));
+			console.log("update");
+			console.log(datas);
+			var tmp = setData(datas);
+			var tmpLabel = tmp[0];
+			var tmpData = tmp[1];
+
+			chart.destroy();
+
+			if(tmpLabel.length > 60) {
+				console.log("called cutting");
+				tmpLabel = tmpLabel.slice(tmpLabel.length - 60);
+			}
+
+			if(tmpData.length > 60) {
+				tmpData = tmpData.slice(tmpData.length - 60);
+			}
+
+			var newChart = new Chart(context, {
+				type: 'line',
+				data: {
+					labels: tmpLabel,
+					datasets: [{
+						label: labels,
+						data: tmpData,
+						borderColor: 'rgb(0, 0, 0)',
+					}]
+				},
+				options: {}
+			});
+
+			return newChart;
+		}
+
+		function setData(datas) {
+			console.log(datas);
+			var tmpLabel = [], tmpData = [];
+			for(var row = 0; row < datas.length - 1; row++) {
+				var tmp = datas[row][0];
+				tmp = tmp.slice(12, 17);
+				tmpLabel.push(tmp);
+				tmpData.push(datas[row][1]);
+			}
+			return [tmpLabel, tmpData];
+		}
+
+		function drawChart(context, datas, labels, fileName) {
+			var tmp = setData(datas);
+			var tmpLabel = tmp[0];
+			var tmpData = tmp[1];
+
+			console.log("before cut" + tmpData.length);
+
+			if(tmpLabel.length > 60) {
+				console.log("called cutting");
+				tmpLabel = tmpLabel.slice(tmpLabel.length - 60);
+			}
+
+			if(tmpData.length > 60) {
+				tmpData = tmpData.slice(tmpData.length - 60);
+			}
+
+			console.log("after cut : " + tmpData.length);
+
+			var chart = new Chart(context, {
+				type: 'line',
+				data: {
+					labels: tmpLabel,
+					datasets: [{
+						label: labels,
+						data: tmpData,
+						borderColor: 'rgb(0, 0, 0)',
+				}]
+				},
+				options: {}
+			});
+
+			setInterval(() => { chart = updateChart(context, fileName, chart, labels); }, 61000);
+		}
+	</script>
+
+</body>
+
+
+</html>
