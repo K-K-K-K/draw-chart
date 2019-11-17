@@ -17,21 +17,13 @@
 		<canvas id="chartHum"></canvas>
 	</div>
 
-	<div>
-		<p style="position: absolute; top: 750px; right: 475px; font-size: 35px; text-align: left;">Device : Raspberry Pi 3 Model B+</p>
-		<p style="position: absolute; top: 790px; right: 342px; font-size: 35px; text-align: left;">Sensor : BME280 (Bosch Sensortec GmbH)</p>
-		<p style="position: absolute; top: 830px; right: 216px; font-size: 35px; text-align: left;">Camera : Logicool® Qcam® Orbit AF QCAM-200R</p>
-		<p style="position: absolute; top: 870px; right: 719px; font-size: 35px; text-align: left;">Library : Chart.js</p>
-	</div>
-
-
 	<script type="text/javascript">
 		var ctx_temp = document.getElementById('chartTemp').getContext('2d');
 		var ctx_pres = document.getElementById('chartPres').getContext('2d');
 		var ctx_hum = document.getElementById('chartHum').getContext('2d');
 
 		var today = new Date();
-		var day = "" + today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + ("0" + today.getDate()).slice(-2);
+		var day = "" + today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + ("0" + today.getDate()).slice(-2); // ex : 20191101
 		
 		var dataFilePath = ["/bme280/data/" + day + "_temp.csv", "/bme280/data/" + day + "_pres.csv", "/bme280/data/" + day + "_hum.csv"];
 
