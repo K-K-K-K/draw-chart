@@ -1,5 +1,5 @@
 # draw-chart
-drawing chart of temperature, pressure and humidity by Chart.js
+drawing chart of temperature, pressure and humidity by [Chart.js](https://www.chartjs.org/)
 
 ## Used Device :
 ・Raspberry Pi 3 Model B+  
@@ -26,7 +26,7 @@ In this file, script written in JavaScript get csv file and draw chart with csv 
 ***
 **If you want to execute this program, you must make circuit using Raspberry Pi 3 Model B+ and BME280 GVBMEP sensor.**
 **Be careful about structure of directory. In this program, I estimate following directory structure.**
-***
+
     /home/  
         └work/  
              ├bme280/  
