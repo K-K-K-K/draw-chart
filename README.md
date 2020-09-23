@@ -12,7 +12,7 @@ This program gets data(with executing function in program which gets data from s
 
 ## bme280_pres.py, bme280_hum.py, bme280_temp.py
 These program are partical rewrites of < https://github.com/SWITCHSCIENCE/samplecodes/blob/master/BME280/Python27/bme280_sample.py >.  
-In each function in these program, I rewrote that in the end of function, return the value of pressure, humidity and temperature.  
+In each function(compensate_*(), readData()) in these program, I rewrote that in the end of function, return the value of pressure, humidity and temperature.  
     **ex)  
         in compensate_P(),**  
             `return %7.2f hPa" % (pressure/100)`  
