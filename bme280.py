@@ -6,10 +6,10 @@ import os
 import time
 
 
-dir_path = '/home/pi/work/techno-festa/bme280/data'
+dir_path = '/home/pi/work/bme280/data'
 
-if not os.path.exists('/home/pi/work/techno-festa/bme280/data'):
-	os.makedirs('/home/pi/work/techno-festa/bme280/data')
+if not os.path.exists('/home/pi/work/bme280/data'):
+	os.makedirs('/home/pi/work/bme280/data')
 
 if __name__ == '__main__':
 	while True:
@@ -21,18 +21,18 @@ if __name__ == '__main__':
 		csv_pres = bme280_pres.readData()
 		csv_hum = bme280_hum.readData()
 
-		f = open('/home/pi/work/techno-festa/bme280/data/' + file_name + '_temp.csv', 'a')
+		f = open('/home/pi/work/bme280/data/' + file_name + '_temp.csv', 'a')
 		print("tmp : " + date + "\t" +  csv_temp)
 		f.write("'" + date + "'," + csv_temp + "\n")
 		f.close() 
 
-		f = open('/home/pi/work/techno-festa/bme280/data/' + file_name + '_pres.csv', 'a')
+		f = open('/home/pi/work/bme280/data/' + file_name + '_pres.csv', 'a')
 		print("prs : " + date +  "\t" + csv_pres)
 
 		f.write("'" + date + "'," + csv_pres + "\n")
 		f.close()
 
-		f = open('/home/pi/work/techno-festa/bme280/data/' + file_name + '_hum.csv', 'a')
+		f = open('/home/pi/work/bme280/data/' + file_name + '_hum.csv', 'a')
 		print("hum : " + date + "\t" +  csv_hum)
 
 		f.write("'" + date + "'," + csv_hum + "\n")
