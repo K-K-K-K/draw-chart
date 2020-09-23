@@ -14,3 +14,12 @@ This program gets data(with executing function in program which gets data from s
 In this file, script written in JavaScript get csv file and draw chart with csv data.
 ***
 **If you want to execute this program, you must make circuit using Raspberry Pi 3 Model B+ and BME280 GVBMEP sensor.**
+**Be careful about structure of directory. In this program, I estimate following directory structure. **
+
+  /home/
+      └work/
+          ├bme280/
+              ├data/
+              └get_senrot_value/
+                  
+          └html-css/
