@@ -9,3 +9,8 @@ Program for getting data from sensor(BME280 GYBMEP) is <https://github.com/SWITC
 
 ## bme280.py
 This program gets data(with executing function in program which gets data from sensor) and output it into csv files(_temp.csv, _pres.csv, _hum.csv).
+
+## drawChart.html
+In this file, script written in JavaScript get csv file and draw chart with csv data.
+
+** If you want to execute this program, you must make circuit using Raspberry Pi 3 Model B+ and BME280 GVBMEP sensor. **
