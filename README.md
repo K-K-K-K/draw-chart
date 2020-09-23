@@ -13,4 +13,4 @@ This program gets data(with executing function in program which gets data from s
 ## drawChart.html
 In this file, script written in JavaScript get csv file and draw chart with csv data.
 
-** If you want to execute this program, you must make circuit using Raspberry Pi 3 Model B+ and BME280 GVBMEP sensor. **
+**If you want to execute this program, you must make circuit using Raspberry Pi 3 Model B+ and BME280 GVBMEP sensor.**
