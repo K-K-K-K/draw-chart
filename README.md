@@ -30,12 +30,12 @@ In this file, script written in JavaScript get csv file and draw chart with csv 
     /home/  
         └work/  
              ├bme280/  
-                 ├data/  
-                 └get_senrot_value/  
-                     ├bme280.py  
-                     ├bme280_pres.py  
-                     ├bme280_hum.py  
-                     └bme280_temp.py
+             |   ├data/  
+             |   └get_senrot_value/  
+             |       ├bme280.py  
+             |       ├bme280_pres.py  
+             |       ├bme280_hum.py  
+             |       └bme280_temp.py
              └html-css/  
                  ├drawChart.html
                  └Chart.js-master
